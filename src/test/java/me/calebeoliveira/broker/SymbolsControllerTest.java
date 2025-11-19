@@ -43,4 +43,25 @@ class SymbolsControllerTest {
         assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals(testSymbol, response.getBody().get());
     }
+
+    @Test
+    void shouldReturnFilteredSymbols_whenUsingQueryParameterMax() {
+        var max10 = client.toBlocking().exchange("/filter?max=10", JsonNode.class);
+        assertEquals(HttpStatus.OK, max10.getStatus());
+        assertEquals(10, max10.getBody().get().size());
+    }
+
+    @Test
+    void shouldReturnFilteredSymbols_whenUsingQueryParameterOffset() {
+        var offset7 = client.toBlocking().exchange("/filter?offset=7", JsonNode.class);
+        assertEquals(HttpStatus.OK, offset7.getStatus());
+        assertEquals(3, offset7.getBody().get().size());
+    }
+
+    @Test
+    void shouldReturnFilteredSymbols_whenUsingQueryParametersMaxAndOffset() {
+        var max2Offset7 = client.toBlocking().exchange("/filter?max=2&offset=7", JsonNode.class);
+        assertEquals(HttpStatus.OK, max2Offset7.getStatus());
+        assertEquals(2, max2Offset7.getBody().get().size());
+    }
 }
