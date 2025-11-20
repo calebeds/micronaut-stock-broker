@@ -1,10 +1,10 @@
-package me.calebeoliveira.watchlist;
+package me.calebeoliveira.broker.data;
 
 import jakarta.inject.Singleton;
-import me.calebeoliveira.wallet.DepositFiatMoney;
-import me.calebeoliveira.wallet.Wallet;
+import me.calebeoliveira.broker.wallet.DepositFiatMoney;
+import me.calebeoliveira.broker.wallet.Wallet;
+import me.calebeoliveira.broker.watchlist.WatchList;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.*;
 

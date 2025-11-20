@@ -8,6 +8,8 @@ import io.micronaut.json.tree.JsonNode;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import me.calebeoliveira.broker.Symbol;
+import me.calebeoliveira.broker.data.InMemoryAccountStore;
+import me.calebeoliveira.broker.watchlist.WatchList;
 import me.calebeoliveira.constants.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

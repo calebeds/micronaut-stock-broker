@@ -1,4 +1,4 @@
-package me.calebeoliveira.wallet.error;
+package me.calebeoliveira.broker.wallet.error;
 
 public class FiatCurrencyNotSupportedException extends RuntimeException {
     public FiatCurrencyNotSupportedException(String message) {

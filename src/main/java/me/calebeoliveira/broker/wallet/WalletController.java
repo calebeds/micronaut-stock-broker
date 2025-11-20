@@ -1,4 +1,4 @@
-package me.calebeoliveira.wallet;
+package me.calebeoliveira.broker.wallet;
 
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -7,9 +7,9 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import me.calebeoliveira.api.RestApiResponse;
-import me.calebeoliveira.wallet.error.CustomError;
-import me.calebeoliveira.wallet.error.FiatCurrencyNotSupportedException;
-import me.calebeoliveira.watchlist.InMemoryAccountStore;
+import me.calebeoliveira.broker.wallet.error.CustomError;
+import me.calebeoliveira.broker.wallet.error.FiatCurrencyNotSupportedException;
+import me.calebeoliveira.broker.data.InMemoryAccountStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

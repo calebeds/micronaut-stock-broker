@@ -1,10 +1,9 @@
-package me.calebeoliveira.watchlist;
+package me.calebeoliveira.broker.watchlist;
 
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
-
-import java.util.UUID;
+import me.calebeoliveira.broker.data.InMemoryAccountStore;
 
 import static me.calebeoliveira.constants.Constants.ACCOUNT_ID;
 

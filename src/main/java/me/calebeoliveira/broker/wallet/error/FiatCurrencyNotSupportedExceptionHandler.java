@@ -1,4 +1,4 @@
-package me.calebeoliveira.wallet.error;
+package me.calebeoliveira.broker.wallet.error;
 
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
@@ -8,7 +8,7 @@ import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.exceptions.ExceptionHandler;
 import jakarta.inject.Singleton;
 
-import static me.calebeoliveira.wallet.WalletController.SUPPORTED_FIAT_CURRENCIES;
+import static me.calebeoliveira.broker.wallet.WalletController.SUPPORTED_FIAT_CURRENCIES;
 
 @Produces
 @Singleton

@@ -1,4 +1,4 @@
-package me.calebeoliveira.wallet.error;
+package me.calebeoliveira.broker.wallet.error;
 
 import io.micronaut.serde.annotation.Serdeable;
 import me.calebeoliveira.api.RestApiResponse;

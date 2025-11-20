@@ -1,4 +1,4 @@
-package me.calebeoliveira.watchlist;
+package me.calebeoliveira.broker.watchlist;
 
 import io.micronaut.serde.annotation.Serdeable;
 import me.calebeoliveira.broker.Symbol;
