@@ -1,17 +1,27 @@
 package me.calebeoliveira.watchlist;
 
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
+import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.json.tree.JsonNode;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import me.calebeoliveira.broker.Symbol;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
 class WatchListControllerTest {
+    private static final UUID TEST_ACCOUNT_ID = WatchListController.ACCOUNT_ID;
+
     @Inject
     @Client("/account/watchlist")
     HttpClient client;
@@ -19,9 +29,37 @@ class WatchListControllerTest {
     @Inject
     InMemoryAccountStore store;
 
+    @BeforeEach
+    void setUp() {
+        store.deleteWatchList(TEST_ACCOUNT_ID);
+    }
+
     @Test
-    void shouldReturnWatchList_whenCallingGetWatchListEndpoint() {
+    void shouldReturnEmptyWatchList_whenCallingGetWatchListEndpoint() {
+        var response = client.toBlocking().exchange("/", WatchList.class);
+        assertEquals(HttpStatus.OK, response.getStatus());
+        assertNull(response.getBody().get().symbols());
+        assertTrue(store.getWatchList(TEST_ACCOUNT_ID).symbols().isEmpty());
+    }
+
+    @Test
+    void shouldReturnWatchList_whenTestAccountIsInMemoryStore() {
+        store.updateWatchList(TEST_ACCOUNT_ID, new WatchList(
+                Stream.of("AAPL", "GOOGL", "MSFT")
+                        .map(Symbol::new)
+                        .toList()
+        ));
         var response = client.toBlocking().exchange("/", JsonNode.class);
         assertEquals(HttpStatus.OK, response.getStatus());
+    }
+
+    @Test
+    void shouldUpdateWatch_whenUsingTesAccount() {
+        final var symbols = Stream.of("APPL", "GOOGL", "MSFT").map(Symbol::new).toList();
+        final var request = HttpRequest.PUT("/", new WatchList(symbols));
+
+        final var response = client.toBlocking().exchange(request);
+        assertEquals(HttpStatus.OK, response.getStatus());
+        assertEquals(symbols, store.getWatchList(TEST_ACCOUNT_ID).symbols());
     }
 }

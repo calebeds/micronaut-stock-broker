@@ -14,9 +14,8 @@ public class InMemoryAccountStore {
         return watchListsPerAccount.getOrDefault(accountId, new WatchList());
     }
 
-    public WatchList updateWatchList(final UUID accountId, final WatchList watchList) {
+    public void updateWatchList(final UUID accountId, final WatchList watchList) {
         watchListsPerAccount.put(accountId, watchList);
-        return getWatchList(accountId);
     }
 
     public void deleteWatchList(final UUID accountId) {
