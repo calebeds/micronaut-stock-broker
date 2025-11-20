@@ -1,6 +1,7 @@
 package me.calebeoliveira.wallet;
 
 import io.micronaut.serde.annotation.Serdeable;
+import me.calebeoliveira.api.RestApiResponse;
 import me.calebeoliveira.broker.Symbol;
 
 import java.math.BigDecimal;

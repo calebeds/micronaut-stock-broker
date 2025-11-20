@@ -1,9 +1,14 @@
 package me.calebeoliveira.watchlist;
 
 import jakarta.inject.Singleton;
+import me.calebeoliveira.wallet.DepositFiatMoney;
 import me.calebeoliveira.wallet.Wallet;
 
+import javax.swing.text.html.Option;
+import java.math.BigDecimal;
 import java.util.*;
+
+import static me.calebeoliveira.constants.Constants.ACCOUNT_ID;
 
 @Singleton
 public class InMemoryAccountStore {
@@ -27,5 +32,22 @@ public class InMemoryAccountStore {
         return Optional.ofNullable(walletsPerAccount.get(accountId))
                 .orElse(new HashMap<>())
                 .values();
+    }
+
+    public Wallet depositToWallet(DepositFiatMoney deposit) {
+        final var wallets = Optional.ofNullable(
+                walletsPerAccount.get(deposit.accountId())
+        ).orElse(new HashMap<>());
+
+        final var oldWallet = Optional.ofNullable(wallets.get(deposit.walletId()))
+                .orElse(new Wallet(ACCOUNT_ID, deposit.walletId(), deposit.symbol(), BigDecimal.ZERO, BigDecimal.ZERO));
+
+        final Wallet newWallet = oldWallet.addAvailable(deposit.amount());
+
+        // update wallet in store
+        wallets.put(newWallet.walletId(), newWallet);
+        walletsPerAccount.put(newWallet.accountId(), wallets);
+
+        return newWallet;
     }
 }
