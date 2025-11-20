@@ -1,9 +1,7 @@
 package me.calebeoliveira.watchlist;
 
 import io.micronaut.http.HttpRequest;
-import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
-import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.json.tree.JsonNode;
@@ -44,11 +42,7 @@ class WatchListControllerTest {
 
     @Test
     void shouldReturnWatchList_whenTestAccountIsInMemoryStore() {
-        store.updateWatchList(TEST_ACCOUNT_ID, new WatchList(
-                Stream.of("AAPL", "GOOGL", "MSFT")
-                        .map(Symbol::new)
-                        .toList()
-        ));
+        givenWatchListForAccountExists();
         var response = client.toBlocking().exchange("/", JsonNode.class);
         assertEquals(HttpStatus.OK, response.getStatus());
     }
@@ -61,5 +55,24 @@ class WatchListControllerTest {
         final var response = client.toBlocking().exchange(request);
         assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals(symbols, store.getWatchList(TEST_ACCOUNT_ID).symbols());
+    }
+
+    @Test
+    void shouldDeleteWatchList_whenCallingDeleteEndpoint() {
+        givenWatchListForAccountExists();
+        assertFalse(store.getWatchList(TEST_ACCOUNT_ID).symbols().isEmpty());
+
+        final var deleted = client.toBlocking().exchange(HttpRequest.DELETE("/"));
+
+        assertEquals(HttpStatus.NO_CONTENT, deleted.getStatus());
+        assertTrue(store.getWatchList(TEST_ACCOUNT_ID).symbols().isEmpty());
+    }
+
+    private void givenWatchListForAccountExists() {
+        store.updateWatchList(TEST_ACCOUNT_ID, new WatchList(
+                Stream.of("AAPL", "GOOGL", "MSFT")
+                        .map(Symbol::new)
+                        .toList()
+        ));
     }
 }

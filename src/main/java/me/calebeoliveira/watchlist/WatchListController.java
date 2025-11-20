@@ -1,10 +1,8 @@
 package me.calebeoliveira.watchlist;
 
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Put;
+import io.micronaut.http.annotation.*;
 
 import java.util.UUID;
 
@@ -27,5 +25,11 @@ public class WatchListController {
     public WatchList update(@Body WatchList watchList) {
         store.updateWatchList(ACCOUNT_ID, watchList);
         return store.getWatchList(ACCOUNT_ID);
+    }
+
+    @Status(HttpStatus.NO_CONTENT)
+    @Delete
+    public void delete() {
+        store.deleteWatchList(ACCOUNT_ID);
     }
 }
