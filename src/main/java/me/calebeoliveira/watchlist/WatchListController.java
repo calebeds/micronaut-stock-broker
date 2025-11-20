@@ -6,9 +6,11 @@ import io.micronaut.http.annotation.*;
 
 import java.util.UUID;
 
+import static me.calebeoliveira.constants.Constants.ACCOUNT_ID;
+
 @Controller("/account/watchlist")
 public class WatchListController {
-    static final UUID ACCOUNT_ID = UUID.randomUUID();
+
     private final InMemoryAccountStore store;
 
     public WatchListController(InMemoryAccountStore store) {

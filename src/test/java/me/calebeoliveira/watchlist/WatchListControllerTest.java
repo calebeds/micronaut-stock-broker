@@ -8,17 +8,21 @@ import io.micronaut.json.tree.JsonNode;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import me.calebeoliveira.broker.Symbol;
+import me.calebeoliveira.constants.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @MicronautTest
 class WatchListControllerTest {
-    private static final UUID TEST_ACCOUNT_ID = WatchListController.ACCOUNT_ID;
+    private static final UUID TEST_ACCOUNT_ID = Constants.ACCOUNT_ID;
 
     @Inject
     @Client("/account/watchlist")
