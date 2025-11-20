@@ -1,10 +1,12 @@
 package me.calebeoliveira.wallet;
 
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import me.calebeoliveira.wallet.error.CustomError;
 import me.calebeoliveira.watchlist.InMemoryAccountStore;
 
 import java.util.Collection;
@@ -28,7 +30,14 @@ public class WalletController {
     }
 
     @Post("/deposit")
-    public HttpResponse<Void> depositFiatMoney(@Body DepositFiatMoney deposit) {
+    public HttpResponse<CustomError> depositFiatMoney(@Body DepositFiatMoney deposit) {
+        if(!SUPPORTED_FIAT_CURRENCIES.contains(deposit.symbol().value())) {
+            return HttpResponse.badRequest()
+                    .body(new CustomError(
+                            HttpStatus.BAD_REQUEST.getCode(),
+                            "UNSUPPORTED_FIAT_CURRENCY",
+                            String.format("Only %s are supported", SUPPORTED_FIAT_CURRENCIES)));
+        }
         return HttpResponse.ok();
     }
 

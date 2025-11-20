@@ -6,10 +6,11 @@ import me.calebeoliveira.broker.Symbol;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Serdeable
 public record DepositFiatMoney(
         UUID accountId,
         UUID walletId,
         Symbol symbol,
-        BigDecimal available
+        BigDecimal amount
 ) {
 }
