@@ -1,8 +1,10 @@
 package me.calebeoliveira.broker.data;
 
 import jakarta.inject.Singleton;
+import me.calebeoliveira.broker.Symbol;
 import me.calebeoliveira.broker.wallet.DepositFiatMoney;
 import me.calebeoliveira.broker.wallet.Wallet;
+import me.calebeoliveira.broker.wallet.WithdrawalFiatMoney;
 import me.calebeoliveira.broker.watchlist.WatchList;
 
 import java.math.BigDecimal;
@@ -35,14 +37,22 @@ public class InMemoryAccountStore {
     }
 
     public Wallet depositToWallet(DepositFiatMoney deposit) {
+        return changeAvailableInWallet(deposit.accountId(), deposit.walletId(), deposit.symbol(), deposit.amount());
+    }
+
+    public Wallet withdrawFromWallet(WithdrawalFiatMoney withdraw) {
+        return changeAvailableInWallet(withdraw.accountId(), withdraw.walletId(), withdraw.symbol(), withdraw.amount());
+    }
+
+    private static Wallet changeAvailableInWallet(UUID accountId, UUID walletId, Symbol symbol, BigDecimal amount) {
         final var wallets = Optional.ofNullable(
-                walletsPerAccount.get(deposit.accountId())
+                walletsPerAccount.get(accountId)
         ).orElse(new HashMap<>());
 
-        final var oldWallet = Optional.ofNullable(wallets.get(deposit.walletId()))
-                .orElse(new Wallet(ACCOUNT_ID, deposit.walletId(), deposit.symbol(), BigDecimal.ZERO, BigDecimal.ZERO));
+        final var oldWallet = Optional.ofNullable(wallets.get(walletId))
+                .orElse(new Wallet(ACCOUNT_ID, walletId, symbol, BigDecimal.ZERO, BigDecimal.ZERO));
 
-        final Wallet newWallet = oldWallet.addAvailable(deposit.amount());
+        final Wallet newWallet = oldWallet.addAvailable(amount);
 
         // update wallet in store
         wallets.put(newWallet.walletId(), newWallet);

@@ -50,9 +50,11 @@ public class WalletController {
     }
 
     @Post("/withdraw")
-    public void withdrawFiatMoney(@Body WithdrawalFiatMoney withdraw) {
+    public Wallet withdrawFiatMoney(@Body WithdrawalFiatMoney withdraw) {
         if(!SUPPORTED_FIAT_CURRENCIES.contains(withdraw.symbol().value())) {
            throw new FiatCurrencyNotSupportedException( String.format("Only %s are supported", SUPPORTED_FIAT_CURRENCIES));
         }
+        var wallet = store.withdrawFromWallet(withdraw);
+        return wallet;
     }
 }
