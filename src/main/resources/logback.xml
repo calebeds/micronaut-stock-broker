@@ -9,6 +9,8 @@
     </appender>
 
     <logger name="me.calebeoliveira" level="DEBUG" />
+    <logger name="org.flywaydb.core" level="INFO" />
+    <logger name="io.micronaut.flyway" level="INFO" />
 
     <root level="info">
         <appender-ref ref="STDOUT" />
