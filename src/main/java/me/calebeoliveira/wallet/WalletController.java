@@ -8,6 +8,7 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import me.calebeoliveira.api.RestApiResponse;
 import me.calebeoliveira.wallet.error.CustomError;
+import me.calebeoliveira.wallet.error.FiatCurrencyNotSupportedException;
 import me.calebeoliveira.watchlist.InMemoryAccountStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,8 @@ public class WalletController {
 
     @Post("/withdraw")
     public void withdrawFiatMoney(@Body WithdrawalFiatMoney withdraw) {
-
+        if(!SUPPORTED_FIAT_CURRENCIES.contains(withdraw.symbol().value())) {
+           throw new FiatCurrencyNotSupportedException( String.format("Only %s are supported", SUPPORTED_FIAT_CURRENCIES));
+        }
     }
 }
