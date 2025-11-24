@@ -6,6 +6,7 @@ import me.calebeoliveira.broker.persistence.model.QuoteDTO;
 import me.calebeoliveira.broker.persistence.model.QuoteEntity;
 import me.calebeoliveira.broker.persistence.model.SymbolEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +17,7 @@ public interface QuotesRepository extends CrudRepository<QuoteEntity, Integer> {
     // Ordering
     List<QuoteDTO> listOrderByVolumeDesc();
     List<QuoteDTO> listOrderByVolumeAsc();
+
+    // Filter
+    List<QuoteDTO> findByVolumeGreaterThanOrderByVolumeAsc(BigDecimal volume);
 }
