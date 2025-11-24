@@ -12,8 +12,11 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("io.micronaut.configuration:micronaut-openapi:1.3.3")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("com.github.javafaker:javafaker:1.0.2") {
         exclude(group = "org.yaml", module = "snakeyaml")
@@ -21,9 +24,13 @@ dependencies {
     implementation("org.yaml:snakeyaml:2.0")
     implementation("io.micronaut.flyway:micronaut-flyway")
     implementation("org.flywaydb:flyway-database-postgresql")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    compileOnly("org.projectlombok:lombok:1.18.30")
     compileOnly("io.micronaut:micronaut-http-client")
+    compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
     testImplementation("io.micronaut:micronaut-http-client")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

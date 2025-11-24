@@ -1,10 +1,17 @@
 package me.calebeoliveira.broker;
 
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.QueryValue;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.calebeoliveira.broker.data.InMemoryStore;
+import me.calebeoliveira.broker.persistence.jpa.SymbolEntity;
+import me.calebeoliveira.broker.persistence.jpa.SymbolsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +21,12 @@ import java.util.Optional;
 class SymbolsController {
 
     private final InMemoryStore inMemoryStore;
+    private final SymbolsRepository symbolRepository;
 
-    public SymbolsController(InMemoryStore inMemoryStore) {
+    public SymbolsController(final InMemoryStore inMemoryStore,
+                             final SymbolsRepository symbolsRepository) {
         this.inMemoryStore = inMemoryStore;
+        this.symbolRepository = symbolsRepository;
     }
 
     @Get
@@ -37,6 +47,16 @@ class SymbolsController {
                 .skip(offset.orElse(0))
                 .limit(max.orElse(10))
                 .toList();
+    }
+
+    @Operation(summary = "Return all available markets from database using jpa")
+    @ApiResponse(
+            content = @Content(mediaType = MediaType.APPLICATION_JSON)
+    )
+    @Tag(name = "markets")
+    @Get("/jpa")
+    public List<SymbolEntity> allSymbolsViaJPA() {
+        return symbolRepository.findAll();
     }
 
 }

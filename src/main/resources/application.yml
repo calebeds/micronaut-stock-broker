@@ -2,6 +2,18 @@
 micronaut:
   application:
     name: mn-stock-broker
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+      openapi-explorer:
+        paths: classpath:META-INF/swagger/views/openapi-explorer
+        mapping: /openapi-explorer/**
+
 flyway:
   datasources:
     default:
@@ -12,4 +24,21 @@ flyway:
       password: ${PG_PASSWORD:secret} #secret
       schemas: mn
       default-schema: mn
+datasources:
+  default:
+    url: ${PG_JDBC_URL:`jdbc:postgresql://127.0.0.1:5432/mn-stock-broker`}
+    username: ${PG_USERNAME:postgres}
+    password: ${PG_PASSWORD:secret} #secret
+    driver-class-name: org.postgresql.Driver
+    schema-generate: NONE
+    dialect: POSTGRES
+# micronaut-data-jpa
+jpa:
+  default:
+    package-to-scan:
+      - "me.calebeoliveira.broker.persistence"
+    properties:
+      hibernate:
+        show_sql: false
+
 
