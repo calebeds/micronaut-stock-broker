@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.calebeoliveira.broker.data.InMemoryStore;
-import me.calebeoliveira.broker.persistence.jpa.SymbolEntity;
 import me.calebeoliveira.broker.persistence.jpa.SymbolsRepository;
+import me.calebeoliveira.broker.persistence.model.SymbolEntity;
 
 import java.util.ArrayList;
 import java.util.List;
