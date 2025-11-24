@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import me.calebeoliveira.api.RestApiResponse;
 import me.calebeoliveira.broker.error.CustomError;
 import me.calebeoliveira.broker.persistence.jpa.QuotesRepository;
+import me.calebeoliveira.broker.persistence.model.QuoteDTO;
 import me.calebeoliveira.broker.persistence.model.QuoteEntity;
 import me.calebeoliveira.broker.persistence.model.SymbolEntity;
 
@@ -51,12 +52,12 @@ public class QuotesController {
     }
 
     @Get("/jpa/ordered/desc")
-    public List<QuoteEntity> orderedDesc() {
+    public List<QuoteDTO> orderedDesc() {
         return quotesRepository.listOrderByVolumeDesc();
     }
 
     @Get("/jpa/ordered/asc")
-    public List<QuoteEntity> orderedAsc() {
+    public List<QuoteDTO> orderedAsc() {
         return quotesRepository.listOrderByVolumeAsc();
     }
 }
