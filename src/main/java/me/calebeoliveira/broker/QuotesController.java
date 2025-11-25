@@ -1,11 +1,13 @@
 package me.calebeoliveira.broker;
 
+import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
+import io.micronaut.http.annotation.QueryValue;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,4 +68,17 @@ public class QuotesController {
     public List<QuoteDTO> volumeFilter (@PathVariable BigDecimal volume) {
         return quotesRepository.findByVolumeGreaterThanOrderByVolumeAsc(volume);
     }
+
+    @Get("/jpa/pagination{?page,volume}")
+    public List<QuoteDTO> volumeFilterPagination(@QueryValue Optional<Integer> page,
+                                                 @QueryValue Optional<BigDecimal> volume) {
+        final int myPage = page.orElse(0);
+        final BigDecimal myVolume = volume.orElse(BigDecimal.ZERO);
+        return quotesRepository.findByVolumeGreaterThan(myVolume, Pageable.from(myPage, 2));
+    }
+    @Get("/jpa/pagination/{page}")
+    public List<QuoteDTO> allEntries(@PathVariable Integer page) {
+        return quotesRepository.list(Pageable.from(page, 5)).getContent();
+    }
+
 }
